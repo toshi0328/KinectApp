@@ -12,5 +12,6 @@
 
 *~
 
-src/capture/ipch/
-src/capture/capture/x64
+src/SimpleCapture/ipch/
+src/SimpleCapture/x64
+src/SimpleCapture/SimpleCapture/x64
