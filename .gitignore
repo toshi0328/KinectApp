@@ -6,9 +6,10 @@
 *.tlog
 *.log
 *.obj
-*.vcxproj*
 *.pdb
 *.exe
+*vcxproj.filters
+*vcxproj.user
 
 *~
 

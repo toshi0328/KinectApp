@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{59658048-3ACB-49ED-ADB4-6F85D2FFB4BB}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>SimpleCapture</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>Windows7.1SDK</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../library/Eigen/include;../../library/boost/include;../../library/PCL/include;../../library/Qt/include;../../library/VTK5_8_0/include/vtk-5.8;$(OPEN_NI_INCLUDE)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>../../library/Boost/lib/;$(OPEN_NI_LIB64);../../library/PCL/lib/$(Configuration);../../library/Qt/lib/$(Configuration);../../library/VTK5_8_0/lib/vtk-5.8/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;comctl32.lib;wsock32.lib;vfw32.lib;opengl32.lib;pcl_apps-gd.lib;pcl_common-gd.lib;pcl_features-gd.lib;pcl_filters-gd.lib;pcl_io-gd.lib;pcl_kdtree-gd.lib;pcl_keypoints-gd.lib;pcl_octree-gd.lib;pcl_range_image-gd.lib;pcl_range_image_border_extractor-gd.lib;pcl_registration-gd.lib;pcl_sample_consensus-gd.lib;pcl_search-gd.lib;pcl_segmentation-gd.lib;pcl_visualization-gd.lib;pcl_surface-gd.lib;QAxContainerd.lib;QAxServerd.lib;Qt3Supportd4.lib;QtCLucened4.lib;QtCored4.lib;QtDeclaratived4.lib;QtDesignerComponentsd4.lib;QtDesignerd4.lib;QtGuid4.lib;QtHelpd4.lib;qtmaind.lib;QtMultimediad4.lib;QtNetworkd4.lib;QtOpenGLd4.lib;QtScriptd4.lib;QtScriptToolsd4.lib;QtSqld4.lib;QtSvgd4.lib;QtTestd4.lib;QtUiToolsd.lib;QtWebKitd4.lib;QtXmld4.lib;QtXmlPatternsd4.lib;QVTK-gd.lib;vtkalglib-gd.lib;vtkCharts-gd.lib;vtkCommon-gd.lib;vtkDICOMParser-gd.lib;vtkexoIIc-gd.lib;vtkexpat-gd.lib;vtkFiltering-gd.lib;vtkfreetype-gd.lib;vtkftgl-gd.lib;vtkGenericFiltering-gd.lib;vtkGeovis-gd.lib;vtkGraphics-gd.lib;vtkhdf5-gd.lib;vtkHybrid-gd.lib;vtkImaging-gd.lib;vtkInfovis-gd.lib;vtkIO-gd.lib;vtkjpeg-gd.lib;vtklibxml2-gd.lib;vtkmetaio-gd.lib;vtkNetCDF_cxx-gd.lib;vtkNetCDF-gd.lib;vtkpng-gd.lib;vtkproj4-gd.lib;vtkRendering-gd.lib;vtksqlite-gd.lib;vtksys-gd.lib;vtktiff-gd.lib;vtkverdict-gd.lib;vtkViews-gd.lib;vtkVolumeRendering-gd.lib;vtkWidgets-gd.lib;vtkzlib-gd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_io-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_common-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_visualization-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_kdtree-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_range_image-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_filters-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_sample_consensus-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_search-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_octree-gd.dll $(OutDir)
+copy /y ..\..\library\Qt\bin\$(Configuration)\QtCored4.dll $(OutDir)
+copy /y ..\..\library\Qt\bin\$(Configuration)\QtGuid4.dll $(OutDir)</Command>
+      <Message>DLL を取得</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../library/Qt/include;../../library/VTK5_8_0/include/vtk-5.8</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>../../library/Qt/lib/$(Configuration);../../library/VTK5_8_0/lib/vtk-5.8/$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ws2_32.lib;comctl32.lib;wsock32.lib;vfw32.lib;opengl32.lib;QtWebKitd4.lib;QtXmlPatternsd4.lib;QtNetworkd4.lib;QtGuid4.lib;QtSqld4.lib;QtCored4.lib;QVTK-gd.lib;vtkalglib-gd.lib;vtkCharts-gd.lib;vtkCommon-gd.lib;vtkDICOMParser-gd.lib;vtkexoIIc-gd.lib;vtkexpat-gd.lib;vtkFiltering-gd.lib;vtkfreetype-gd.lib;vtkftgl-gd.lib;vtkGenericFiltering-gd.lib;vtkGeovis-gd.lib;vtkGraphics-gd.lib;vtkhdf5-gd.lib;vtkHybrid-gd.lib;vtkImaging-gd.lib;vtkInfovis-gd.lib;vtkIO-gd.lib;vtkjpeg-gd.lib;vtklibxml2-gd.lib;vtkmetaio-gd.lib;vtkNetCDF_cxx-gd.lib;vtkNetCDF-gd.lib;vtkpng-gd.lib;vtkproj4-gd.lib;vtkRendering-gd.lib;vtksqlite-gd.lib;vtksys-gd.lib;vtktiff-gd.lib;vtkverdict-gd.lib;vtkViews-gd.lib;vtkVolumeRendering-gd.lib;vtkWidgets-gd.lib;vtkzlib-gd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MainWin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="MainWin.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
