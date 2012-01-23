@@ -8,7 +8,6 @@
 *.obj
 *.pdb
 *.exe
-*vcxproj.filters
 *vcxproj.user
 
 *~
