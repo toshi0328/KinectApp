@@ -172,24 +172,33 @@ copy /y ..\..\library\Qt\bin\$(Configuration)\QtGui4.dll $(OutDir)</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainWin.cpp" />
-    <ClCompile Include="moc_MainWin.cpp" />
+    <ClCompile Include="MainWindow.cpp" />
+    <ClCompile Include="moc_MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="common.h" />
-    <CustomBuild Include="MainWin.h">
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Qt\4.8.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"../../library/Qt/include/QtCore" -I"../../library/Qt/include/QtGui" -I"../../library/Qt/include/" -I"." -I"../../library/Qt/include/ActiveQt" -I"debug" -Ic:\Qt\4.8.0\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MainWin.h -o moc_MainWin.cpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MOCing Process...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_MainWin.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Qt\4.8.0\bin\moc.exe;MainWin.h;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Qt\4.8.0\bin\moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"../../library/Qt/include/QtCore" -I"../../library/Qt/include/QtGui" -I"../../library/Qt/include/" -I"." -I"../../library/Qt/include/ActiveQt" -I"release" -Ic:\Qt\4.8.0\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MainWin.h -o moc_MainWin.cpp</Command>
-      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MOCing Process...</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_MainWin.cpp;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Qt\4.8.0\bin\moc.exe;MainWin.h;%(AdditionalInputs)</AdditionalInputs>
+    <CustomBuild Include="MainWindow.h">
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"../../library/Qt/QtCore" -I"../../library/Qt/QtGui" -I"../../library/Qt/include" -I"." -I"../../library/Qt/include/ActiveQt" -Ic:\Qt\4.8.0\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MainWindow.h -o moc_MainWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MOC MainWindow.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc_MainWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">MainWindow.h;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"../../library/Qt/QtCore" -I"../../library/Qt/QtGui" -I"../../library/Qt/include" -I"." -I"../../library/Qt/include/ActiveQt" -Ic:\Qt\4.8.0\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MainWindow.h -o moc_MainWindow.cpp</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MOC MainWindow.h</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_MainWindow.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MainWindow.h;%(AdditionalInputs)</AdditionalInputs>
     </CustomBuild>
+    <ClInclude Include="ui_MainWindow.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SimpleCapture.pro" />
+    <CustomBuild Include="MainWindow.ui">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">uic -o ui_MainWindow.h MainWindow.ui</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">compile ui file</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">uic -o ui_MainWindow.h MainWindow.ui</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">compile ui file</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">ui_MainWindow.h</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">ui_MainWindow.h</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

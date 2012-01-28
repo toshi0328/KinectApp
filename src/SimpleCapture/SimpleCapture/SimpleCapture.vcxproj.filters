@@ -21,10 +21,10 @@
     <ClCompile Include="main.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="MainWin.cpp">
+    <ClCompile Include="MainWindow.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="moc_MainWin.cpp">
+    <ClCompile Include="moc_MainWindow.cpp">
       <Filter>自動生成ソース</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,12 +32,15 @@
     <ClInclude Include="common.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="ui_MainWindow.h">
+      <Filter>自動生成ソース</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\SimpleCapture.pro" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="MainWin.h">
+    <CustomBuild Include="MainWindow.ui">
+      <Filter>リソース ファイル</Filter>
+    </CustomBuild>
+    <CustomBuild Include="MainWindow.h">
       <Filter>ヘッダー ファイル</Filter>
     </CustomBuild>
   </ItemGroup>

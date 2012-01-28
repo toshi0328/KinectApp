@@ -4,7 +4,7 @@
 
 #include <QApplication>
 
-#include "MainWin.h"
+#include "MainWindow.h"
 
 int main (int argc, char ** argv)
 {
@@ -17,7 +17,7 @@ int main (int argc, char ** argv)
   }
 
   QApplication app(argc, argv);
-  MainWin mainWin(grabber);
+  MainWindow mainWin(grabber);
   mainWin.show();
   return app.exec();
 }

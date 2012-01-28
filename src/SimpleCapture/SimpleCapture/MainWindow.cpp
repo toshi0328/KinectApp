@@ -1,4 +1,4 @@
-#include "MainWin.h"
+#include "MainWindow.h"
 
 #include <cassert>
 
@@ -18,48 +18,46 @@
 #include <QtGui>
 #include <QVTKWidget.h>
 
-MainWin::MainWin(boost::shared_ptr<pcl::OpenNIGrabber> grabber):
+MainWindow::MainWindow(boost::shared_ptr<pcl::OpenNIGrabber> grabber):
 _grabber(grabber)
 {
+   _ui.setupUi(this);
+
+   /*
   _mainViewWidget = new QVTKWidget();
   _pclVis.reset (new pcl::visualization::PCLVisualizer ("", false));
 
   setCentralWidget(_mainViewWidget);
+  */
 
   // Create a timer and fire it up every 5ms
   _vis_timer = new QTimer (this);
   _vis_timer->start (5);
 
-  connect (_vis_timer, SIGNAL (timeout ()), this, SLOT (timeoutSlot()));
+//  connect (_vis_timer, SIGNAL (timeout ()), this, SLOT (timeoutSlot()));
 
-  SetRenderWindow();
+  //  SetRenderWindow();
   //  SetRenderWindowForTest(_mainViewWidget);
-
-  CreateActions();
-
-
-  this->resize(600,400);
 }
 
-MainWin::~MainWin(void)
+MainWindow::~MainWindow(void)
 {
-  delete _mainViewWidget;
   delete _vis_timer;
 }
 
-void MainWin::SetRenderWindow()
+/*
+void MainWindow::SetRenderWindow()
 {
   assert(_mainViewWidget);
 
   _mainViewWidget->SetRenderWindow( _pclVis->getRenderWindow());
-  /*
-  _pclVis->setupInteractor (_mainViewWidget->GetInteractor(), _mainViewWidget->GetRenderWindow());
-  vis_->getInteractorStyle ()->setKeyboardModifier (pcl::visualization::INTERACTOR_KB_MOD_SHIFT);
-  ui_->qvtk_widget->update (); 
-  */
+
+//  _pclVis->setupInteractor (_mainViewWidget->GetInteractor(), _mainViewWidget->GetRenderWindow());
+//  vis_->getInteractorStyle ()->setKeyboardModifier (pcl::visualization::INTERACTOR_KB_MOD_SHIFT);
+//  ui_->qvtk_widget->update (); 
 
   // Start the OpenNI data acquision
-  boost::function<void (const CloudConstPtr&)> f = boost::bind (&MainWin::CloudCallback, this, _1);
+  boost::function<void (const CloudConstPtr&)> f = boost::bind (&MainWindow::CloudCallback, this, _1);
   boost::signals2::connection c = _grabber->registerCallback (f);
   _grabber->start ();
 
@@ -70,8 +68,8 @@ void MainWin::SetRenderWindow()
   _pass.setFilterLimits (0.5, 5.0);
 }
 
-/*
-void MainWin::SetRenderWindowForTest(QVTKWidget* mainViewWidget)
+
+void MainWindow::SetRenderWindowForTest(QVTKWidget* mainViewWidget)
 {
   assert(mainViewWidget);
 
@@ -97,7 +95,8 @@ void MainWin::SetRenderWindowForTest(QVTKWidget* mainViewWidget)
 }
 */
 
-void MainWin::timeoutSlot()
+/*
+void MainWindow::timeoutSlot()
 {
   if (!_cloud_pass)
   {
@@ -121,7 +120,7 @@ void MainWin::timeoutSlot()
 }
 
 
-void MainWin::CloudCallback(const CloudConstPtr& cloud)
+void MainWindow::CloudCallback(const CloudConstPtr& cloud)
 {
   QMutexLocker locker (&_mtx);  
   FPS_CALC ("computation");
@@ -133,6 +132,8 @@ void MainWin::CloudCallback(const CloudConstPtr& cloud)
 }
 
 
-void MainWin::CreateActions()
+void MainWindow::CreateActions()
 {
 }
+
+*/

@@ -4,7 +4,9 @@
 
 #include <QMainWindow>
 #include <QMutex>
+
 #include <pcl/filters/passthrough.h>
+#include "ui_MainWindow.h"
 
 namespace pcl{
   class OpenNIGrabber;
@@ -17,31 +19,27 @@ namespace pcl{
 class QAction;
 class QLabel;
 class QVTKWidget;
-
-class MainWin : public QMainWindow
+class MainWindow : public QMainWindow
 {
-  Q_OBJECT
-
+    Q_OBJECT
 public:
-  MainWin(boost::shared_ptr<pcl::OpenNIGrabber> grabber);
-  ~MainWin(void);
+  MainWindow(boost::shared_ptr<pcl::OpenNIGrabber> grabber);
+  ~MainWindow(void);
 
 protected:
 //  void closeEvent(QCloseEvent *event);
 
 private slots:
-  void timeoutSlot();
+//  void timeoutSlot();
 
 private:
   void CloudCallback(const CloudConstPtr& cloud);
 
-  void CreateActions();
-
-  void SetRenderWindow();
+//  void SetRenderWindow();
 //  void SetRenderWindowForTest(QVTKWidget* mainViewWidget);
 
 private:
-  QVTKWidget* _mainViewWidget;
+//  QVTKWidget* _mainViewWidget;
   boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVis;
   boost::shared_ptr<pcl::OpenNIGrabber> _grabber;
   
@@ -51,8 +49,6 @@ private:
   QTimer* _vis_timer;
   QMutex _mtx;
 
-  QAction* _newAct;
-  QAction* _openAct;
-  QAction* _aboutQtAction;
+  private:
+    Ui::MainWindow _ui;
 };
-
