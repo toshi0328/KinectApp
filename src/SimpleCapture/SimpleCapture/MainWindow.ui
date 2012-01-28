@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1298</width>
-    <height>555</height>
+    <width>1496</width>
+    <height>730</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="QWidget" name="widgetView1" native="true"/>
+     <widget class="QVTKWidget" name="widgetView1" native="true"/>
     </item>
     <item>
-     <widget class="QWidget" name="widgetView2" native="true"/>
+     <widget class="QVTKWidget" name="widgetView2" native="true"/>
     </item>
     <item>
      <widget class="QFrame" name="frameMainControl">
@@ -59,17 +59,65 @@
          <property name="title">
           <string>MainControl</string>
          </property>
-         <widget class="QPushButton" name="pushButtonCapture">
+         <widget class="QPushButton" name="captureButton">
           <property name="geometry">
            <rect>
-            <x>10</x>
-            <y>20</y>
+            <x>150</x>
+            <y>110</y>
             <width>111</width>
             <height>28</height>
            </rect>
           </property>
           <property name="text">
            <string>Capture</string>
+          </property>
+         </widget>
+         <widget class="QSlider" name="fieldValueSlider">
+          <property name="geometry">
+           <rect>
+            <x>90</x>
+            <y>50</y>
+            <width>171</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="minimum">
+           <number>5</number>
+          </property>
+          <property name="maximum">
+           <number>50</number>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QLabel" name="labelFiledRange">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>50</y>
+            <width>71</width>
+            <height>16</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>FieldRange</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="realTimeUpdateCheckBox">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>141</width>
+            <height>19</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Real time update</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
           </property>
          </widget>
         </widget>
@@ -97,7 +145,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1298</width>
+     <width>1496</width>
      <height>29</height>
     </rect>
    </property>
@@ -106,7 +154,6 @@
      <string>File</string>
     </property>
     <addaction name="actionOpen"/>
-    <addaction name="actionSave_2"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -140,12 +187,14 @@
     <string>Exit</string>
    </property>
   </action>
-  <action name="actionSave_2">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QVTKWidget</class>
+   <extends>QWidget</extends>
+   <header>qvtkwidget.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

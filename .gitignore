@@ -9,10 +9,12 @@
 *.pdb
 *.exe
 *vcxproj.user
-moc_*.cpp
 
 *~
 
 src/SimpleCapture/ipch/
 src/SimpleCapture/x64
 src/SimpleCapture/SimpleCapture/x64
+
+src/SimpleCapture/SimpleCapture/moc_*.cpp
+src/SimpleCapture/SimpleCapture/ui_*.h

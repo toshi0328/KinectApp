@@ -30,21 +30,27 @@ protected:
 //  void closeEvent(QCloseEvent *event);
 
 private slots:
-//  void timeoutSlot();
+  void timeoutSlot();
+  void adjustPassThroughValuesSlot(int new_value);
+  void captureSlot();
 
 private:
+  void SetControllers();
+  void SetPCL();
+  void SetWindowForPCLVisualizer(QVTKWidget* mainViewWidget, boost::shared_ptr<pcl::visualization::PCLVisualizer> pclVis);
+  void SetWindowForTest(QVTKWidget* mainViewWidget);
+
   void CloudCallback(const CloudConstPtr& cloud);
 
-//  void SetRenderWindow();
-//  void SetRenderWindowForTest(QVTKWidget* mainViewWidget);
-
 private:
-//  QVTKWidget* _mainViewWidget;
-  boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVis;
+  boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisRealtime;
+  boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisCaptured;
   boost::shared_ptr<pcl::OpenNIGrabber> _grabber;
-  
+ 
   CloudPtr _cloud_pass;
   pcl::PassThrough<pcl::PointXYZRGB> _pass;
+
+  CloudPtr _cloud_saved;
 
   QTimer* _vis_timer;
   QMutex _mtx;

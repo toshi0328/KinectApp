@@ -16,62 +16,78 @@
 #include <vtkJPEGReader.h>
 
 #include <QtGui>
+#include <QMutexLocker>
 #include <QVTKWidget.h>
 
 MainWindow::MainWindow(boost::shared_ptr<pcl::OpenNIGrabber> grabber):
 _grabber(grabber)
 {
-   _ui.setupUi(this);
+  _ui.setupUi(this);
 
-   /*
-  _mainViewWidget = new QVTKWidget();
-  _pclVis.reset (new pcl::visualization::PCLVisualizer ("", false));
-
-  setCentralWidget(_mainViewWidget);
-  */
-
-  // Create a timer and fire it up every 5ms
-  _vis_timer = new QTimer (this);
-  _vis_timer->start (5);
-
-//  connect (_vis_timer, SIGNAL (timeout ()), this, SLOT (timeoutSlot()));
-
-  //  SetRenderWindow();
-  //  SetRenderWindowForTest(_mainViewWidget);
+  SetControllers();
+  SetPCL();
+  SetWindowForPCLVisualizer(_ui.widgetView1, _pclVisRealtime);
+  SetWindowForPCLVisualizer(_ui.widgetView2, _pclVisCaptured);
+//  SetWindowForTest(_ui.widgetView2);
 }
 
 MainWindow::~MainWindow(void)
 {
+  if (_grabber->isRunning())
+  { 
+    _grabber->stop();
+  }
   delete _vis_timer;
 }
 
-/*
-void MainWindow::SetRenderWindow()
+#pragma region setup
+void MainWindow::SetPCL()
 {
-  assert(_mainViewWidget);
-
-  _mainViewWidget->SetRenderWindow( _pclVis->getRenderWindow());
-
-//  _pclVis->setupInteractor (_mainViewWidget->GetInteractor(), _mainViewWidget->GetRenderWindow());
-//  vis_->getInteractorStyle ()->setKeyboardModifier (pcl::visualization::INTERACTOR_KB_MOD_SHIFT);
-//  ui_->qvtk_widget->update (); 
+  _pclVisRealtime.reset (new pcl::visualization::PCLVisualizer ("", false));
+  _pclVisCaptured.reset (new pcl::visualization::PCLVisualizer ("", false));
 
   // Start the OpenNI data acquision
   boost::function<void (const CloudConstPtr&)> f = boost::bind (&MainWindow::CloudCallback, this, _1);
   boost::signals2::connection c = _grabber->registerCallback (f);
   _grabber->start ();
 
-  _mainViewWidget->update ();
-
   // Set defaults
   _pass.setFilterFieldName ("z");
   _pass.setFilterLimits (0.5, 5.0);
 }
 
-
-void MainWindow::SetRenderWindowForTest(QVTKWidget* mainViewWidget)
+void MainWindow::SetControllers()
 {
-  assert(mainViewWidget);
+  // Create a timer and fire it up every 50ms
+  _vis_timer = new QTimer (this);
+  _vis_timer->start (50);
+  connect (_vis_timer, SIGNAL (timeout ()), this, SLOT (timeoutSlot()));
+
+  // Slider
+  _ui.fieldValueSlider->setRange (5, 50);
+  _ui.fieldValueSlider->setValue (30);
+  connect (_ui.fieldValueSlider, SIGNAL (valueChanged (int)), this, SLOT (adjustPassThroughValuesSlot (int)));
+
+  // Button
+  connect(_ui.captureButton, SIGNAL( clicked()), this, SLOT(captureSlot()));
+
+}
+
+void MainWindow::SetWindowForPCLVisualizer(QVTKWidget* viewWidget, boost::shared_ptr<pcl::visualization::PCLVisualizer> pclVis)
+{
+  assert(viewWidget);
+
+  viewWidget->SetRenderWindow( pclVis->getRenderWindow());
+  viewWidget->update ();
+
+  //  _pclVis->setupInteractor (_mainViewWidget->GetInteractor(), _mainViewWidget->GetRenderWindow());
+  //  vis_->getInteractorStyle ()->setKeyboardModifier (pcl::visualization::INTERACTOR_KB_MOD_SHIFT);
+  //  ui_->qvtk_widget->update (); 
+}
+
+void MainWindow::SetWindowForTest(QVTKWidget* viewWidget)
+{
+  assert(viewWidget);
 
   //setup sphere
   vtkSmartPointer<vtkSphereSource> sphereSource = vtkSmartPointer<vtkSphereSource>::New();
@@ -91,11 +107,10 @@ void MainWindow::SetRenderWindowForTest(QVTKWidget* mainViewWidget)
   renderer->AddActor(sphereActor);
   renderer->ResetCamera();
 
-  mainViewWidget->SetRenderWindow(renderWindow);
+  viewWidget->SetRenderWindow(renderWindow);
 }
-*/
 
-/*
+#pragma region slot
 void MainWindow::timeoutSlot()
 {
   if (!_cloud_pass)
@@ -110,18 +125,52 @@ void MainWindow::timeoutSlot()
     temp_cloud.swap (_cloud_pass); 
   }
   // Add to the 3D viewer
-  if (!_pclVis->updatePointCloud (temp_cloud, "cloud_pass"))
+  if (!_pclVisRealtime->updatePointCloud (temp_cloud, "cloud_pass"))
   {
-    _pclVis->addPointCloud (temp_cloud, "cloud_pass");
-    _pclVis->resetCameraViewpoint ("cloud_pass");
+    _pclVisRealtime->addPointCloud (temp_cloud, "cloud_pass");
+    _pclVisRealtime->resetCameraViewpoint ("cloud_pass");
   }
   FPS_CALC ("visualization");
-  _mainViewWidget->update ();
+  _ui.widgetView1->update ();
 }
 
+void MainWindow::adjustPassThroughValuesSlot(int new_value)
+{
+  _pass.setFilterLimits (0.5, new_value / 10.0f);
+}
 
+void MainWindow::captureSlot()
+{
+  {
+    QMutexLocker locker (&_mtx);
+    if(_cloud_pass == NULL) return ;
+
+    if(_cloud_saved == NULL){
+      _cloud_saved = _cloud_pass;
+    }else{
+      *_cloud_saved += *_cloud_pass;      
+    }
+  }
+
+  // Add to the 3D viewer
+  if (!_pclVisCaptured->updatePointCloud (_cloud_saved, "cloud_captured"))
+  {
+    _pclVisCaptured->addPointCloud (_cloud_saved, "cloud_captured");
+    _pclVisCaptured->resetCameraViewpoint ("cloud_captured");
+  }
+  _ui.widgetView2->update ();
+}
+#pragma endregion
+
+
+#pragma region callback
 void MainWindow::CloudCallback(const CloudConstPtr& cloud)
 {
+  if(_ui.realTimeUpdateCheckBox->checkState() != Qt::Checked)
+  {
+    return;
+  }
+
   QMutexLocker locker (&_mtx);  
   FPS_CALC ("computation");
 
@@ -131,9 +180,4 @@ void MainWindow::CloudCallback(const CloudConstPtr& cloud)
   _pass.filter (*_cloud_pass);
 }
 
-
-void MainWindow::CreateActions()
-{
-}
-
-*/
+#pragma endregion
