@@ -19,8 +19,13 @@
 #include <QMutexLocker>
 #include <QVTKWidget.h>
 
+#include "CapturedPoints.h"
+
+using namespace SimpleCapture;
+
 MainWindow::MainWindow(boost::shared_ptr<pcl::OpenNIGrabber> grabber):
-_grabber(grabber)
+_grabber(grabber),
+_capturedPoints(new CapturedPoints())
 {
   _ui.setupUi(this);
 
@@ -33,6 +38,7 @@ _grabber(grabber)
 
 MainWindow::~MainWindow(void)
 {
+//  QMutexLocker locker (&_mtx);
   if (_grabber->isRunning())
   { 
     _grabber->stop();
@@ -61,16 +67,16 @@ void MainWindow::SetControllers()
   // Create a timer and fire it up every 50ms
   _vis_timer = new QTimer (this);
   _vis_timer->start (50);
-  connect (_vis_timer, SIGNAL (timeout ()), this, SLOT (timeoutSlot()));
+  connect (_vis_timer, SIGNAL (timeout ()), this, SLOT (TimeoutSlot()));
 
   // Slider
   _ui.fieldValueSlider->setRange (5, 50);
   _ui.fieldValueSlider->setValue (30);
-  connect (_ui.fieldValueSlider, SIGNAL (valueChanged (int)), this, SLOT (adjustPassThroughValuesSlot (int)));
+  connect (_ui.fieldValueSlider, SIGNAL (valueChanged (int)), this, SLOT (AdjustPassThroughValuesSlot (int)));
 
   // Button
-  connect(_ui.captureButton, SIGNAL( clicked()), this, SLOT(captureSlot()));
-
+  connect(_ui.captureButton, SIGNAL( clicked()), this, SLOT(CaptureSlot()));
+  connect(_ui.clearButton, SIGNAL( clicked()), this, SLOT(ClearSlot()));
 }
 
 void MainWindow::SetWindowForPCLVisualizer(QVTKWidget* viewWidget, boost::shared_ptr<pcl::visualization::PCLVisualizer> pclVis)
@@ -111,7 +117,7 @@ void MainWindow::SetWindowForTest(QVTKWidget* viewWidget)
 }
 
 #pragma region slot
-void MainWindow::timeoutSlot()
+void MainWindow::TimeoutSlot()
 {
   if (!_cloud_pass)
   {
@@ -134,32 +140,34 @@ void MainWindow::timeoutSlot()
   _ui.widgetView1->update ();
 }
 
-void MainWindow::adjustPassThroughValuesSlot(int new_value)
+void MainWindow::AdjustPassThroughValuesSlot(int new_value)
 {
   _pass.setFilterLimits (0.5, new_value / 10.0f);
 }
 
-void MainWindow::captureSlot()
+void MainWindow::CaptureSlot()
 {
   {
     QMutexLocker locker (&_mtx);
     if(_cloud_pass == NULL) return ;
-
-    if(_cloud_saved == NULL){
-      _cloud_saved = _cloud_pass;
-    }else{
-      *_cloud_saved += *_cloud_pass;      
-    }
+    _capturedPoints->AddPoint(_cloud_pass);
   }
 
   // Add to the 3D viewer
-  if (!_pclVisCaptured->updatePointCloud (_cloud_saved, "cloud_captured"))
+  if (!_pclVisCaptured->updatePointCloud (_capturedPoints->GetPoints(), "cloud_captured"))
   {
-    _pclVisCaptured->addPointCloud (_cloud_saved, "cloud_captured");
+    _pclVisCaptured->addPointCloud (_capturedPoints->GetPoints(), "cloud_captured");
     _pclVisCaptured->resetCameraViewpoint ("cloud_captured");
   }
   _ui.widgetView2->update ();
 }
+
+void MainWindow::ClearSlot()
+{
+  _pclVisCaptured->removePointCloud ("cloud_captured");
+  _capturedPoints->ClearPoint();
+}
+
 #pragma endregion
 
 

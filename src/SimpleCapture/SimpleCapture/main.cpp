@@ -1,9 +1,6 @@
 #include "common.h"
-
 #include <pcl/io/openni_grabber.h>
-
 #include <QApplication>
-
 #include "MainWindow.h"
 
 int main (int argc, char ** argv)
@@ -17,7 +14,7 @@ int main (int argc, char ** argv)
   }
 
   QApplication app(argc, argv);
-  MainWindow mainWin(grabber);
+  SimpleCapture::MainWindow mainWin(grabber);
   mainWin.show();
   return app.exec();
 }

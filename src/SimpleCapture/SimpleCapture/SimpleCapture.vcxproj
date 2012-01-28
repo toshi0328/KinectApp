@@ -96,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../library/Eigen/include;../../library/boost/include;../../library/PCL/include;../../library/VTK5_8_0/include/vtk-5.8;../../library/Qt/include;../../library/Qt/include/QtCore;../../library/Qt/include/QtGui;../../library/Qt/include/ActiveQt;$(OPEN_NI_INCLUDE)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../library/Eigen/include;../../library/boost/include;../../library/flann/include;../../library/PCL/include;../../library/VTK5_8_0/include/vtk-5.8;../../library/Qt/include;../../library/Qt/include/QtCore;../../library/Qt/include/QtGui;../../library/Qt/include/ActiveQt;$(OPEN_NI_INCLUDE)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -114,6 +114,7 @@ copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_filters-gd.dll $(OutDir)
 copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_sample_consensus-gd.dll $(OutDir)
 copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_search-gd.dll $(OutDir)
 copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_octree-gd.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_surface-gd.dll $(OutDir)
 copy /y ..\..\library\Qt\bin\$(Configuration)\QtCored4.dll $(OutDir)
 copy /y ..\..\library\Qt\bin\$(Configuration)\QtGuid4.dll $(OutDir)</Command>
       <Message>DLL を取得</Message>
@@ -145,7 +146,7 @@ copy /y ..\..\library\Qt\bin\$(Configuration)\QtGuid4.dll $(OutDir)</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>../../library/Eigen/include;../../library/boost/include;../../library/PCL/include;../../library/VTK5_8_0/include/vtk-5.8;../../library/Qt/include;../../library/Qt/include/QtCore;../../library/Qt/include/QtGui;../../library/Qt/include/ActiveQt;$(OPEN_NI_INCLUDE)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../library/Eigen/include;../../library/boost/include;../../library/flann/include;../../library/PCL/include;../../library/VTK5_8_0/include/vtk-5.8;../../library/Qt/include;../../library/Qt/include/QtCore;../../library/Qt/include/QtGui;../../library/Qt/include/ActiveQt;$(OPEN_NI_INCLUDE)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -166,16 +167,19 @@ copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_filters.dll $(OutDir)
 copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_sample_consensus.dll $(OutDir)
 copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_search.dll $(OutDir)
 copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_octree.dll $(OutDir)
+copy /y ..\..\library\PCL\bin\$(Configuration)\pcl_surface.dll $(OutDir)
 copy /y ..\..\library\Qt\bin\$(Configuration)\QtCore4.dll $(OutDir)
 copy /y ..\..\library\Qt\bin\$(Configuration)\QtGui4.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CapturedPoints.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="moc_MainWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CapturedPoints.h" />
     <ClInclude Include="common.h" />
     <CustomBuild Include="MainWindow.h">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc.exe  -DUNICODE -DWIN32 -DQT_LARGEFILE_SUPPORT -DQT_DLL -DQT_GUI_LIB -DQT_CORE_LIB -DQT_HAVE_MMX -DQT_HAVE_3DNOW -DQT_HAVE_SSE -DQT_HAVE_MMXEXT -DQT_HAVE_SSE2 -DQT_THREAD_SUPPORT -I"../../library/Qt/QtCore" -I"../../library/Qt/QtGui" -I"../../library/Qt/include" -I"." -I"../../library/Qt/include/ActiveQt" -Ic:\Qt\4.8.0\mkspecs\win32-msvc2010 -D_MSC_VER=1600 -DWIN32 MainWindow.h -o moc_MainWindow.cpp</Command>

@@ -19,42 +19,44 @@ namespace pcl{
 class QAction;
 class QLabel;
 class QVTKWidget;
-class MainWindow : public QMainWindow
-{
+
+namespace SimpleCapture{
+  class CapturedPoints;
+  class MainWindow : public QMainWindow
+  {
     Q_OBJECT
-public:
-  MainWindow(boost::shared_ptr<pcl::OpenNIGrabber> grabber);
-  ~MainWindow(void);
+  public:
+    MainWindow(boost::shared_ptr<pcl::OpenNIGrabber> grabber);
+    ~MainWindow(void);
 
-protected:
-//  void closeEvent(QCloseEvent *event);
+  private slots:
+      void TimeoutSlot();
+      void AdjustPassThroughValuesSlot(int new_value);
+      void CaptureSlot();
+      void ClearSlot();
 
-private slots:
-  void timeoutSlot();
-  void adjustPassThroughValuesSlot(int new_value);
-  void captureSlot();
+  private:
+    void SetControllers();
+    void SetPCL();
+    void SetWindowForPCLVisualizer(QVTKWidget* mainViewWidget, boost::shared_ptr<pcl::visualization::PCLVisualizer> pclVis);
+    void SetWindowForTest(QVTKWidget* mainViewWidget);
 
-private:
-  void SetControllers();
-  void SetPCL();
-  void SetWindowForPCLVisualizer(QVTKWidget* mainViewWidget, boost::shared_ptr<pcl::visualization::PCLVisualizer> pclVis);
-  void SetWindowForTest(QVTKWidget* mainViewWidget);
+    void CloudCallback(const CloudConstPtr& cloud);
 
-  void CloudCallback(const CloudConstPtr& cloud);
+  private:
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisRealtime;
+    boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisCaptured;
+    boost::shared_ptr<pcl::OpenNIGrabber> _grabber;
 
-private:
-  boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisRealtime;
-  boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisCaptured;
-  boost::shared_ptr<pcl::OpenNIGrabber> _grabber;
- 
-  CloudPtr _cloud_pass;
-  pcl::PassThrough<pcl::PointXYZRGB> _pass;
+    CloudPtr _cloud_pass;
+    pcl::PassThrough<pcl::PointXYZRGB> _pass;
 
-  CloudPtr _cloud_saved;
+    boost::shared_ptr<CapturedPoints> _capturedPoints;
 
-  QTimer* _vis_timer;
-  QMutex _mtx;
+    QTimer* _vis_timer;
+    QMutex _mtx;
 
   private:
     Ui::MainWindow _ui;
-};
+  };
+}
