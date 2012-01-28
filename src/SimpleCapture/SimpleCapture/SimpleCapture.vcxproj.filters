@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="自動生成ソース">
+      <UniqueIdentifier>{d20b8042-c326-425d-b793-de9338f3836c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -21,13 +24,21 @@
     <ClCompile Include="MainWin.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="moc_MainWin.cpp">
+      <Filter>自動生成ソース</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWin.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="common.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\SimpleCapture.pro" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="MainWin.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>

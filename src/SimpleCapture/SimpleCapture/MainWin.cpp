@@ -15,7 +15,7 @@
 #include <vtkRenderer.h>
 #include <vtkJPEGReader.h>
 
-#include <QtGui/QtGui>
+#include <QtGui>
 #include <QVTKWidget.h>
 
 MainWin::MainWin(boost::shared_ptr<pcl::OpenNIGrabber> grabber):

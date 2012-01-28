@@ -2,7 +2,7 @@
 
 #include <pcl/io/openni_grabber.h>
 
-#include <Qt/QApplication.h>
+#include <QApplication>
 
 #include "MainWin.h"
 

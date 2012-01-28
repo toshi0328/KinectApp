@@ -2,9 +2,8 @@
 
 #include "common.h"
 
-#include "Qt/QMainWindow.h"
-#include "Qt/QMutex.h"
-
+#include <QMainWindow>
+#include <QMutex>
 #include <pcl/filters/passthrough.h>
 
 namespace pcl{
@@ -21,7 +20,7 @@ class QVTKWidget;
 
 class MainWin : public QMainWindow
 {
-//  Q_OBJECT
+  Q_OBJECT
 
 public:
   MainWin(boost::shared_ptr<pcl::OpenNIGrabber> grabber);
@@ -55,8 +54,5 @@ private:
   QAction* _newAct;
   QAction* _openAct;
   QAction* _aboutQtAction;
-
-
-
 };
 
