@@ -77,6 +77,10 @@ void MainWindow::SetControllers()
   // Button
   connect(_ui.captureButton, SIGNAL( clicked()), this, SLOT(CaptureSlot()));
   connect(_ui.clearButton, SIGNAL( clicked()), this, SLOT(ClearSlot()));
+
+  // List
+  connect(_ui.capturedList, SIGNAL( itemClicked(QListWidgetItem *)), this, SLOT(CapturedListChangeValueSlot(QListWidgetItem *)));
+
 }
 
 void MainWindow::SetWindowForPCLVisualizer(QVTKWidget* viewWidget, boost::shared_ptr<pcl::visualization::PCLVisualizer> pclVis)
@@ -147,25 +151,52 @@ void MainWindow::AdjustPassThroughValuesSlot(int new_value)
 
 void MainWindow::CaptureSlot()
 {
+  while (_cloud_pass == NULL)
   {
-    QMutexLocker locker (&_mtx);
-    if(_cloud_pass == NULL) return ;
-    _capturedPoints->AddPoint(_cloud_pass);
+    boost::this_thread::sleep (boost::posix_time::milliseconds (50));
   }
 
-  // Add to the 3D viewer
-  if (!_pclVisCaptured->updatePointCloud (_capturedPoints->GetPoints(), "cloud_captured"))
+  CloudPtr temp_cloud;
   {
-    _pclVisCaptured->addPointCloud (_capturedPoints->GetPoints(), "cloud_captured");
-    _pclVisCaptured->resetCameraViewpoint ("cloud_captured");
+    QMutexLocker locker (&_mtx);
+    temp_cloud.swap (_cloud_pass); 
+    std::string pointID = _capturedPoints->AddPoints(temp_cloud);
+    AddToCapturedList(pointID);
+
+    if (!_pclVisCaptured->updatePointCloud (_capturedPoints->GetPoints(pointID), pointID))
+    {
+      _pclVisCaptured->addPointCloud (_capturedPoints->GetPoints(pointID), pointID);
+      _pclVisCaptured->resetCameraViewpoint (pointID);
+    }
   }
   _ui.widgetView2->update ();
 }
 
+void MainWindow::CapturedListChangeValueSlot(QListWidgetItem* sender)
+{
+  std::string pointID = sender->text().toStdString();
+  if(sender->checkState() == Qt::CheckState::Checked)
+  {
+    if (!_pclVisCaptured->updatePointCloud (_capturedPoints->GetPoints(pointID), pointID))
+    {
+      _pclVisCaptured->addPointCloud (_capturedPoints->GetPoints(pointID), pointID);
+    }
+  }
+  else
+  {
+    _pclVisCaptured->removePointCloud (pointID);
+  }
+    _ui.widgetView2->update ();
+}
+
 void MainWindow::ClearSlot()
 {
-  _pclVisCaptured->removePointCloud ("cloud_captured");
-  _capturedPoints->ClearPoint();
+  RemoveAllCapturedList();
+
+  _capturedPoints->ClearPoints();
+
+  _pclVisCaptured->removeAllPointClouds();
+  _ui.widgetView2->update ();
 }
 
 #pragma endregion
@@ -189,3 +220,18 @@ void MainWindow::CloudCallback(const CloudConstPtr& cloud)
 }
 
 #pragma endregion
+
+
+void MainWindow::AddToCapturedList(const std::string& pointID)
+{
+  QListWidgetItem* checkBoxItem = new QListWidgetItem(QString::fromStdString(pointID));
+ 
+  checkBoxItem->setCheckState(Qt::CheckState::Checked);
+  _ui.capturedList->addItem(checkBoxItem);
+//  _ui.capturedList->update();
+}
+
+void MainWindow::RemoveAllCapturedList()
+{
+  _ui.capturedList->clear();
+}

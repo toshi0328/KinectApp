@@ -19,7 +19,14 @@
      <widget class="QVTKWidget" name="widgetView1" native="true"/>
     </item>
     <item>
-     <widget class="QVTKWidget" name="widgetView2" native="true"/>
+     <widget class="QVTKWidget" name="widgetView2" native="true">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>100</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item>
      <widget class="QFrame" name="frameMainControl">
@@ -49,29 +56,16 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QGroupBox" name="groupBox1">
+        <widget class="QGroupBox" name="groupBoxRealTime">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>150</height>
+           <height>100</height>
           </size>
          </property>
          <property name="title">
-          <string>MainControl</string>
+          <string>RealTimeMonitor</string>
          </property>
-         <widget class="QPushButton" name="captureButton">
-          <property name="geometry">
-           <rect>
-            <x>150</x>
-            <y>80</y>
-            <width>111</width>
-            <height>28</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Capture</string>
-          </property>
-         </widget>
          <widget class="QSlider" name="fieldValueSlider">
           <property name="geometry">
            <rect>
@@ -120,17 +114,57 @@
            <bool>true</bool>
           </property>
          </widget>
+         <zorder>fieldValueSlider</zorder>
+         <zorder>labelFiledRange</zorder>
+         <zorder>realTimeUpdateCheckBox</zorder>
+         <zorder>verticalSpacer</zorder>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBoxCapture">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>300</height>
+          </size>
+         </property>
+         <property name="title">
+          <string>Capture</string>
+         </property>
+         <widget class="QPushButton" name="captureButton">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>20</y>
+            <width>111</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Capture</string>
+          </property>
+         </widget>
          <widget class="QPushButton" name="clearButton">
           <property name="geometry">
            <rect>
-            <x>150</x>
-            <y>110</y>
+            <x>10</x>
+            <y>250</y>
             <width>111</width>
             <height>28</height>
            </rect>
           </property>
           <property name="text">
            <string>Clear</string>
+          </property>
+         </widget>
+         <widget class="QListWidget" name="capturedList">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>50</y>
+            <width>256</width>
+            <height>192</height>
+           </rect>
           </property>
          </widget>
         </widget>

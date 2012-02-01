@@ -4,7 +4,9 @@
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
-typedef pcl::PointCloud<pcl::PointXYZRGB> Cloud;
+typedef pcl::PointXYZRGB PointType;
+
+typedef pcl::PointCloud<PointType> Cloud;
 typedef Cloud::Ptr CloudPtr;
 typedef Cloud::ConstPtr CloudConstPtr;
 

@@ -33,6 +33,7 @@ namespace SimpleCapture{
       void TimeoutSlot();
       void AdjustPassThroughValuesSlot(int new_value);
       void CaptureSlot();
+      void CapturedListChangeValueSlot(QListWidgetItem* sender);
       void ClearSlot();
 
   private:
@@ -43,13 +44,17 @@ namespace SimpleCapture{
 
     void CloudCallback(const CloudConstPtr& cloud);
 
+    void AddToCapturedList(const std::string& pointID);
+    void RemoveAllCapturedList();
+//    void UpdateCapturedList(boost::shared_ptr<CapturedPoints> capturedPoints);
+
   private:
     boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisRealtime;
     boost::shared_ptr<pcl::visualization::PCLVisualizer> _pclVisCaptured;
     boost::shared_ptr<pcl::OpenNIGrabber> _grabber;
 
     CloudPtr _cloud_pass;
-    pcl::PassThrough<pcl::PointXYZRGB> _pass;
+    pcl::PassThrough<PointType> _pass;
 
     boost::shared_ptr<CapturedPoints> _capturedPoints;
 

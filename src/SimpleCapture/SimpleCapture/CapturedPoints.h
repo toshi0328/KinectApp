@@ -9,17 +9,19 @@ namespace SimpleCapture{
     CapturedPoints(void);
     ~CapturedPoints(void);
 
-    void AddPoint(CloudPtr& addingCloud);
-    void ClearPoint();
+    std::string AddPoints(CloudPtr& addingCloud);
+    void ClearPoints();
 
-    CloudPtr GetPoints(){ return _cloud_saved;}
+   CloudPtr GetPoints(const std::string& pointID){ return _savedCloud[pointID];}
 
   private:
     CloudPtr Downsizing(CloudPtr& addingCloud);
+    CloudPtr DownsizingUsingApprox(CloudPtr& addingCloud);
+
     CloudPtr Smoothing(CloudPtr& addingCloud);
 
-
-    CloudPtr _cloud_saved;
+    std::map<std::string,CloudPtr> _savedCloud;
+    int _savedCloudCnt;
   };
 
 }
